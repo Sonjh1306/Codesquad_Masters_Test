@@ -7,5 +7,12 @@
 
 import Foundation
 
-print("Hello, World!")
+// 1단계
+var word = PushWord()
+var input = word.makeInput()
+print(word.moveWord(input: input))
 
+// 2단계
+var cube = FlatCube()
+var action = cube.makeAction()
+cube.makeCube(action: action)

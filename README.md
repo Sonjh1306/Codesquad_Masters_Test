@@ -1,57 +1,141 @@
 # Codesquad_Masters_Test
 
 
-## 1단계: 단어 밀어내기 구현하기
+## 2단계: 평면 큐브 구현하기
 
 ~~~swift
 // main.swift
-// Step-1
-var word = PushWord()
-var input = word.makeInput()
-print(word.moveWord(input: input))
+// Step-2
+var cube = FlatCube()
+var action = cube.makeAction()
+cube.makeCube(action: action)
 ~~~
-<요구 사항>
-- 입력: 사용자로부터 단어 하나, 정수 숫자 하나( -100 <= N < 100) , L 또는 R을 입력받는다. L 또는 R은 대소문자 모두 입력 가능하다.
-- 주어진 단어를 L이면 주어진 숫자 갯수만큼 왼쪽으로, R이면 오른쪽으로 밀어낸다.
-- 밀려나간 단어는 반대쪽으로 채워진다.
 
-1. makeInput() 함수를 생성, readLine()으로 받은 입력 값 배열 생성 후 리턴한다.
+<요구 사항>
+
+- 처음 시작하면 초기 상태를 출력한다.
+
+- 간단한 프롬프트 (CLI에서 키보드 입력받기 전에 표시해주는 간단한 글자들 - 예: CUBE> )를 표시해 준다.
+
+- 한 번에 여러 문자를 입력받은 경우 순서대로 처리해서 매 과정을 화면에 출력한다.
+
+1. makeAction() 함수를 생성, 동작을 입력 받고 배열을 리턴한다.  U', R', L', B' 등 " ' "와 같이 입력되는 동작들은 " ' " 와 영문자가 나눠지므로 제거한 다음, 앞 인덱스의 문자를 변경한다.
+
 ~~~swift
-    func makeInput() -> [String] {
-        let inputArr = readLine()!.components(separatedBy: " ")
-        return inputArr
+    func makeAction() -> [String] {
+        let inputArr: [String] = String(readLine()!).map{String($0)}
+        var actionArr: [String] = []
+        for i in 0...inputArr.count - 1  {
+            if inputArr[i] == "'" {
+                actionArr.remove(at: i - 1)
+                actionArr.append("\(inputArr[i-1])'")
+                
+            }else{
+                actionArr.append(inputArr[i])
+            }
+        }
+        return actionArr
     }
 ~~~
-2. makeInput() 리턴 값을 파라미터로 받는 moveWord() 함수를 생성, 각각 단어, 횟수 , 방향 변수에 값을 넣어준다.
-3. if 문을 생성 , 횟수의 범위를 지정하고 벗어날 시 강제 종료 한다. 중첩 if 문을 통하여 (양수 && 왼쪽 || 음수 && 오른쪽) 과 (양수&& 오른쪽 || 음수 && 왼쪽) 의 각각 동작을 구분하고 그 외에 입력을 받을 시 강제 종료 한다.
-4. (양수 && 왼쪽 || 음수 && 오른쪽)의 동작은 str 변수에 단어의 맨 앞을 넣어주고 그 값을 배열 맨 뒤에 넣는다.그리고 맨 앞의 인덱스를 제거한다. (양수&& 오른쪽 || 음수 && 왼쪽) 동작은 str 변수에 단어의 맨 끝을 넣어주고배열의 마지막 인덱스를 제거한 후 맨 처음 인덱스로 넣어준다.
-5. joined()를 통하여 이동된 배열의 각 요소들을 합친 후 String으로 리턴한다.
+2.  makeCube() 함수를 생성, action으로  makeAction()의 리턴 값을 받는다.
+
+3.  평면 큐브 배열의 초기 상태를 만들어 준다.
+
+4.  action 배열을 돌면서 각각 인덱스를 확인하는 for 문을 생성한다.
+
+5.  동작 " U "(가장 윗줄을 왼쪽으로 한 칸 밀기): 이동할 위치 복사,  원하는 위치 삽입, 이동한 위치 제거
+
+    동작 " U' "(가장 윗줄을 오른쪽으로 한 칸 밀기): 이동할 위치 복사, 원하는 위치 삽입, 이동한 위치 제거 
+
+    동작 " R "(가장 오른쪽 줄을 위로 한 칸 밀기):  변수를 3개 사용하여 각각 위치를 복사, 제거, 삽입을 3번 시행
+
+    동작 " R' "(가장 오른쪽 줄을 아래로 한 칸 밀기): 변수를 3개 사용하여 각각 위치를 복사, 제거, 삽입을 3번 시행
+
+    동작 " L "(가장 왼쪽 줄을 아래로 한 칸 밀기): 변수를 3개 사용하여 각각 위치를 복사, 제거, 삽입을 3번 시행
+
+    동작 " L' "(가장 왼쪽 줄을 위로 한 칸 밀기): 변수를 3개 사용하여 각각 위치를 복사, 제거, 삽입을 3번 시행
+
+    동작 " B " (가장 아랫줄을 오른쪽으로 한 칸 밀기): 이동할 위치 복사, 원하는 위치 삽입, 이동한 위치 제거 
+
+    동작 " B' "(가장 아랫줄을 왼쪽으로 한 칸 밀기): 이동할 위치 복사, 원하는 위치 삽입, 이동한 위치 제거 
+
+    동작 " Q "(Bye~를 출력하고 프로그램을 종료한다.)
 ~~~swift
-    func moveWord(input: [String]) -> String {
-        var wordArr: [String] = String(input[0]).map{String($0)}
-        let number: Int = Int(input[1])!
-        let direction: String = input[2]
-        if number >= -100 && number < 100 {
-            if (number > 0 && (direction == "l" || direction == "L")) || (number < 0 && (direction == "r" || direction == "R")) {
-                var str: String = ""
-                for _ in 0...abs(number) - 1 {
-                    str = wordArr[0]
-                    wordArr.append(str)
-                    wordArr.remove(at: 0)
-                }
-            }else if (number > 0 && (direction == "r" || direction == "R")) || (number < 0 && (direction == "l" || direction == "L")) {
-                var str: String = ""
-                for _ in 0...abs(number) - 1 {
-                    str = wordArr[input[0].count - 1]
-                    wordArr.remove(at: input[0].count - 1)
-                    wordArr.insert(str, at: 0)
-                }
-            }else{
+    func makeCube(action: [String]){
+        var cubeArr: [[String]] = [["R","R","W"],["G","C","W"],["G","B","B"]]
+        
+        print(cubeArr)
+        print()
+        print("CUBE> \(action)")
+        print()
+        
+        for index in action {
+            var str1: String = ""
+            var str2: String = ""
+            var str3: String = ""
+            if index == "U" {
+                str1 = cubeArr[0][0]
+                cubeArr[0].insert(str1, at: 3)
+                cubeArr[0].remove(at: 0)
+            }else if index == "U'"{
+                str1 = cubeArr[0][2]
+                cubeArr[0].insert(str1, at: 0)
+                cubeArr[0].remove(at: 3)
+            }else if index == "R"{
+                str1 = cubeArr[0][2]
+                str2 = cubeArr[1][2]
+                str3 = cubeArr[2][2]
+                cubeArr[0].remove(at: 2)
+                cubeArr[0].insert(str2, at: 2)
+                cubeArr[1].remove(at: 2)
+                cubeArr[1].insert(str3, at: 2)
+                cubeArr[2].remove(at: 2)
+                cubeArr[2].insert(str1, at: 2)
+            }else if index == "R'"{
+                str1 = cubeArr[0][2]
+                str2 = cubeArr[1][2]
+                str3 = cubeArr[2][2]
+                cubeArr[0].remove(at: 2)
+                cubeArr[0].insert(str3, at: 2)
+                cubeArr[1].remove(at: 2)
+                cubeArr[1].insert(str1, at: 2)
+                cubeArr[2].remove(at: 2)
+                cubeArr[2].insert(str2, at: 2)
+            }else if index == "L"{
+                str1 = cubeArr[0][0]
+                str2 = cubeArr[1][0]
+                str3 = cubeArr[2][0]
+                cubeArr[0].remove(at: 0)
+                cubeArr[0].insert(str3, at: 0)
+                cubeArr[1].remove(at: 0)
+                cubeArr[1].insert(str1, at: 0)
+                cubeArr[2].remove(at: 0)
+                cubeArr[2].insert(str2, at: 0)
+            }else if index == "L'"{
+                str1 = cubeArr[0][0]
+                str2 = cubeArr[1][0]
+                str3 = cubeArr[2][0]
+                cubeArr[0].remove(at: 0)
+                cubeArr[0].insert(str2, at: 0)
+                cubeArr[1].remove(at: 0)
+                cubeArr[1].insert(str3, at: 0)
+                cubeArr[2].remove(at: 0)
+                cubeArr[2].insert(str1, at: 0)
+            }else if index == "B"{
+                str1 = cubeArr[2][2]
+                cubeArr[2].insert(str1, at: 0)
+                cubeArr[2].remove(at: 3)
+            }else if index == "B'"{
+                str1 = cubeArr[2][0]
+                cubeArr[2].insert(str1, at: 3)
+                cubeArr[2].remove(at: 0)
+            }else if index == "Q"{
+                print("Bye~")
                 exit(0)
             }
-        }else{
-            exit(0)
+            print(index)
+            print(cubeArr)
+            print()
         }
-        return wordArr.joined()
     }
 ~~~

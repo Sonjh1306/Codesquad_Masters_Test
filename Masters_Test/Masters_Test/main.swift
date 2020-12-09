@@ -19,4 +19,4 @@ import Foundation
 
 // 3단계
 var makeRubiksCube = MakeRubiksCube()
-makeRubiksCube.actionUp()
+makeRubiksCube.actionBack()

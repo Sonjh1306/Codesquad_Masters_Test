@@ -15,6 +15,44 @@ struct MakeRubiksCube {
     var rightArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
     var backArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
     
+    func makeInput() -> [String] {
+        let inputArr: [String] = String(readLine()!).map{String($0)}
+        var actionArr: [String] = []
+        for i in 0...inputArr.count - 1  {
+            if inputArr[i] == "'" {
+                actionArr.remove(at: i - 1)
+                actionArr.append("\(inputArr[i-1])'")
+                
+            }else{
+                actionArr.append(inputArr[i])
+            }
+        }
+        return actionArr
+    }
+    
+    mutating func cubeAction(action: [String]) {
+        for index in action {
+            if index == "U" {actionUp()}
+            else if index == "D"{actionDown()}
+            else if index == "F"{actionFront()}
+            else if index == "B"{actionBack()}
+            else if index == "L"{actionLeft()}
+            else if index == "R"{actionRight()}
+            else if index == "U'"{for _ in 0...2 {actionUp()}}
+            else if index == "D'"{for _ in 0...2 {actionDown()}}
+            else if index == "F'"{for _ in 0...2 {actionFront()}}
+            else if index == "B'"{for _ in 0...2 {actionBack()}}
+            else if index == "L'"{for _ in 0...2 {actionLeft()}}
+            else if index == "R'"{for _ in 0...2 {actionRight()}}
+        }
+        print(upArr)
+        print(downArr)
+        print(frontArr)
+        print(backArr)
+        print(leftArr)
+        print(rightArr)
+    }
+    
     // 윗면 돌릴 경우: 1.복사, 2.제거, 3.삽입
     mutating func actionUp() {
         // 보이는 면

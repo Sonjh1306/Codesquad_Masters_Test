@@ -15,23 +15,48 @@ struct MakeRubiksCube {
     var rightArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
     var backArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
     
+    // 일반 기능 구현
+    //-----------------------------------------------------------------------//
     func makeInput() -> [String] {
         let inputArr: [String] = String(readLine()!).map{String($0)}
+        var convertArr: [String] = []
         var actionArr: [String] = []
         for i in 0...inputArr.count - 1  {
             if inputArr[i] == "'" {
-                actionArr.remove(at: i - 1)
-                actionArr.append("\(inputArr[i-1])'")
-                
+                convertArr.remove(at: i - 1)
+                convertArr.append("\(inputArr[i-1])'")
+            } else{
+                convertArr.append(inputArr[i])
+            }
+        }
+        for i in 0...convertArr.count - 1 {
+            if inputArr[i] == "U" || inputArr[i] == "D" || inputArr[i] == "F" || inputArr[i] == "B" ||
+                inputArr[i] == "L" || inputArr[i] == "R" || inputArr[i] == "U'" || inputArr[i] == "D'" ||
+                inputArr[i] == "F'" || inputArr[i] == "B'" || inputArr[i] == "L'" || inputArr[i] == "R'"{
+                actionArr.append(convertArr[i])
             }else{
-                actionArr.append(inputArr[i])
+                let num = Int(convertArr[i])!
+                for _ in 0...num - 2 {
+                    actionArr.append("\(convertArr[i-1])")
+                }
             }
         }
         return actionArr
     }
+
     
     mutating func cubeAction(action: [String]) {
+        var count: Int = 0
+        print()
+        print("초기 상태")
+        print()
+        printCube()
+        print()
+        print("CUBE> " + action.joined())
+        print()
         for index in action {
+            count += 1
+            print(index)
             if index == "U" {actionUp()}
             else if index == "D"{actionDown()}
             else if index == "F"{actionFront()}
@@ -44,15 +69,55 @@ struct MakeRubiksCube {
             else if index == "B'"{for _ in 0...2 {actionBack()}}
             else if index == "L'"{for _ in 0...2 {actionLeft()}}
             else if index == "R'"{for _ in 0...2 {actionRight()}}
+            else if index == "Q"{break}
+            printCube()
         }
-        print(upArr)
-        print(downArr)
-        print(frontArr)
-        print(backArr)
-        print(leftArr)
-        print(rightArr)
+        print()
+        print("조작갯수: \(count)")
     }
     
+    mutating func printCube() {
+        for i in 0...2 {
+            print("       ",terminator:"")
+            for j in 0...2 {
+                print(upArr[i][j], terminator:" ")
+            }
+            print()
+        }
+        print()
+        for i in 0...2 {
+            for j in 0...2 {
+                print(leftArr[i][j], terminator:" ")
+            }
+            print(" ",terminator:"")
+            for j in 0...2 {
+                print(frontArr[i][j], terminator:" ")
+            }
+            print(" ",terminator:"")
+            for j in 0...2 {
+                print(rightArr[i][j], terminator:" ")
+            }
+            print(" ",terminator:"")
+            for j in 0...2 {
+                print(backArr[i][j], terminator:" ")
+            }
+            print()
+        }
+        print()
+        for i in 0...2 {
+            print("       ",terminator:"")
+            for j in 0...2 {
+                print(downArr[i][j], terminator:" ")
+            }
+            print()
+        }
+    }
+    // 추가 기능 구현
+    //-----------------------------------------------------------------------//
+  
+    
+    // 큐브 동작 기능 함수
+    //-----------------------------------------------------------------------//
     // 윗면 돌릴 경우: 1.복사, 2.제거, 3.삽입
     mutating func actionUp() {
         // 보이는 면
@@ -125,10 +190,6 @@ struct MakeRubiksCube {
         leftArr[0].append(cha16)
         leftArr[0].remove(at: 0)
         leftArr[0].append(cha17)
-        print(backArr)
-        print(rightArr)
-        print(frontArr)
-        print(leftArr)
     }
     
     // 바닥면 돌릴 경우: 1.복사, 2.제거, 3.삽입

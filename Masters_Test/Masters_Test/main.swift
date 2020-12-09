@@ -21,3 +21,4 @@ import Foundation
 var makeRubiksCube = MakeRubiksCube()
 var action = makeRubiksCube.makeInput()
 makeRubiksCube.cubeAction(action: action)
+

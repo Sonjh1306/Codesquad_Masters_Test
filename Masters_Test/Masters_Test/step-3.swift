@@ -19,26 +19,28 @@ struct MakeRubiksCube {
     //-----------------------------------------------------------------------//
     func makeInput() -> [String] {
         let inputArr: [String] = String(readLine()!).map{String($0)}
-        var convertArr: [String] = []
+        var filterArr: [String] = []
         var actionArr: [String] = []
+        // " ' " 를 필터해서 바꿔주는 함수
         for i in 0...inputArr.count - 1  {
             if inputArr[i] == "'" {
-                convertArr.remove(at: i - 1)
-                convertArr.append("\(inputArr[i-1])'")
-            } else{
-                convertArr.append(inputArr[i])
+                filterArr.removeLast()
+                filterArr.append("\(inputArr[i-1])'")
+            }else{
+                filterArr.append(inputArr[i])
             }
         }
-        for i in 0...convertArr.count - 1 {
-            if inputArr[i] == "U" || inputArr[i] == "D" || inputArr[i] == "F" || inputArr[i] == "B" ||
-                inputArr[i] == "L" || inputArr[i] == "R" || inputArr[i] == "U'" || inputArr[i] == "D'" ||
-                inputArr[i] == "F'" || inputArr[i] == "B'" || inputArr[i] == "L'" || inputArr[i] == "R'"{
-                actionArr.append(convertArr[i])
+        // 2번 돌리는 입력을 바꿔주는 함수
+        for i in 0...filterArr.count - 1 {
+            if filterArr[i] == "U" || filterArr[i] == "D" || filterArr[i] == "F" || filterArr[i] == "B" ||
+                filterArr[i] == "L" || filterArr[i] == "R"{
+                actionArr.append(filterArr[i])
+            }else if filterArr[i] == "U'" || filterArr[i] == "D'" || filterArr[i] == "F'" || filterArr[i] == "B'" ||
+                        filterArr[i] == "L'" || filterArr[i] == "R'"{
+                actionArr.append(filterArr[i])
             }else{
-                let num = Int(convertArr[i])!
-                for _ in 0...num - 2 {
-                    actionArr.append("\(convertArr[i-1])")
-                }
+                actionArr.removeLast()
+                actionArr.append("\(filterArr[i-1])\(filterArr[i])")
             }
         }
         return actionArr
@@ -69,6 +71,19 @@ struct MakeRubiksCube {
             else if index == "B'"{for _ in 0...2 {actionBack()}}
             else if index == "L'"{for _ in 0...2 {actionLeft()}}
             else if index == "R'"{for _ in 0...2 {actionRight()}}
+            
+            else if index == "U2"{for _ in 0...1 {actionUp()}}
+            else if index == "D2"{for _ in 0...1 {actionDown()}}
+            else if index == "F2"{for _ in 0...1 {actionFront()}}
+            else if index == "B2"{for _ in 0...1 {actionBack()}}
+            else if index == "L2"{for _ in 0...1 {actionLeft()}}
+            else if index == "R2"{for _ in 0...1 {actionRight()}}
+            else if index == "U'2"{for _ in 0...1 {actionUp()}}
+            else if index == "D'2"{for _ in 0...1 {actionDown()}}
+            else if index == "F'2"{for _ in 0...1 {actionFront()}}
+            else if index == "B'2"{for _ in 0...1 {actionBack()}}
+            else if index == "L'2"{for _ in 0...1 {actionLeft()}}
+            else if index == "R'2"{for _ in 0...1 {actionRight()}}
             else if index == "Q"{break}
             printCube()
         }

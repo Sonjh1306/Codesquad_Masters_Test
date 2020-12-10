@@ -8,6 +8,7 @@
 import Foundation
 
 struct MakeRubiksCube {
+    var count: Int = 0
     var upArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
     var downArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
     var leftArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
@@ -32,11 +33,10 @@ struct MakeRubiksCube {
         }
         // 2번 돌리는 입력을 바꿔주는 함수
         for i in 0...filterArr.count - 1 {
-            if filterArr[i] == "U" || filterArr[i] == "D" || filterArr[i] == "F" || filterArr[i] == "B" ||
-                filterArr[i] == "L" || filterArr[i] == "R"{
+            if filterArr[i] == "U" || filterArr[i] == "D" || filterArr[i] == "F" || filterArr[i] == "B" || filterArr[i] == "L" || filterArr[i] == "R" || filterArr[i] == "Q"{
                 actionArr.append(filterArr[i])
             }else if filterArr[i] == "U'" || filterArr[i] == "D'" || filterArr[i] == "F'" || filterArr[i] == "B'" ||
-                        filterArr[i] == "L'" || filterArr[i] == "R'"{
+                        filterArr[i] == "L'" || filterArr[i] == "R'" || filterArr[i] == "Q"{
                 actionArr.append(filterArr[i])
             }else{
                 actionArr.removeLast()
@@ -45,10 +45,8 @@ struct MakeRubiksCube {
         }
         return actionArr
     }
-
-    
     mutating func cubeAction(action: [String]) {
-        var count: Int = 0
+        var roofEnd: Bool = false
         print()
         print("초기 상태")
         print()
@@ -84,11 +82,18 @@ struct MakeRubiksCube {
             else if index == "B'2"{for _ in 0...1 {actionBack()}}
             else if index == "L'2"{for _ in 0...1 {actionLeft()}}
             else if index == "R'2"{for _ in 0...1 {actionRight()}}
-            else if index == "Q"{break}
+            else if index == "Q"{roofEnd = true}
             printCube()
         }
-        print()
-        print("조작갯수: \(count)")
+        if roofEnd == true {
+            print()
+            print("경과시간: ")
+            print("조작갯수: \(count - 1)")
+            print("이용해 주셔서 감사합니다. 뚜뚜뚜.")
+            exit(0)
+        }
+        // 꼬리 재귀 사용
+        self.cubeAction(action: makeInput())
     }
     
     mutating func printCube() {
@@ -129,7 +134,7 @@ struct MakeRubiksCube {
     }
     // 추가 기능 구현
     //-----------------------------------------------------------------------//
-  
+
     
     // 큐브 동작 기능 함수
     //-----------------------------------------------------------------------//

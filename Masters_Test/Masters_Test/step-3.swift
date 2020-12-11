@@ -14,19 +14,19 @@ struct MakeRubiksCube {
     var completeSign: Bool = false
     var radomActionArr: [String] = []
     
-    var upArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
-    var downArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
-    var leftArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
-    var frontArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
-    var rightArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
-    var backArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
+    var upArr: [[String]] = Array(repeating: Array(repeating: "B", count: 3), count: 3)
+    var downArr: [[String]] = Array(repeating: Array(repeating: "R", count: 3), count: 3)
+    var leftArr: [[String]] = Array(repeating: Array(repeating: "W", count: 3), count: 3)
+    var frontArr: [[String]] = Array(repeating: Array(repeating: "O", count: 3), count: 3)
+    var rightArr: [[String]] = Array(repeating: Array(repeating: "G", count: 3), count: 3)
+    var backArr: [[String]] = Array(repeating: Array(repeating: "Y", count: 3), count: 3)
     var cubeArr = [
-        [["1","2","3"],["4","5","6"],["7","8","9"]],
-        [["1","2","3"],["4","5","6"],["7","8","9"]],
-        [["1","2","3"],["4","5","6"],["7","8","9"]],
-        [["1","2","3"],["4","5","6"],["7","8","9"]],
-        [["1","2","3"],["4","5","6"],["7","8","9"]],
-        [["1","2","3"],["4","5","6"],["7","8","9"]],
+        Array(repeating: Array(repeating: "B", count: 3), count: 3),
+        Array(repeating: Array(repeating: "R", count: 3), count: 3),
+        Array(repeating: Array(repeating: "W", count: 3), count: 3),
+        Array(repeating: Array(repeating: "O", count: 3), count: 3),
+        Array(repeating: Array(repeating: "G", count: 3), count: 3),
+        Array(repeating: Array(repeating: "Y", count: 3), count: 3)
     ]
     
     

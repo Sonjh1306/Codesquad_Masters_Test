@@ -8,16 +8,33 @@
 import Foundation
 
 struct MakeRubiksCube {
+    let startTime = CFAbsoluteTimeGetCurrent()
     var count: Int = 0
+    var roofEnd: Bool = false
+    var completeSign: Bool = false
+    var radomActionArr: [String] = []
+    
     var upArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
     var downArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
     var leftArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
     var frontArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
     var rightArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
     var backArr: [[String]] = [["1","2","3"],["4","5","6"],["7","8","9"]]
+    var cubeArr = [
+        [["1","2","3"],["4","5","6"],["7","8","9"]],
+        [["1","2","3"],["4","5","6"],["7","8","9"]],
+        [["1","2","3"],["4","5","6"],["7","8","9"]],
+        [["1","2","3"],["4","5","6"],["7","8","9"]],
+        [["1","2","3"],["4","5","6"],["7","8","9"]],
+        [["1","2","3"],["4","5","6"],["7","8","9"]],
+    ]
+    
     
     // 일반 기능 구현
     //-----------------------------------------------------------------------//
+    
+    
+    // 입력 관리
     func makeInput() -> [String] {
         let inputArr: [String] = String(readLine()!).map{String($0)}
         var filterArr: [String] = []
@@ -45,57 +62,93 @@ struct MakeRubiksCube {
         }
         return actionArr
     }
-    mutating func cubeAction(action: [String]) {
-        var roofEnd: Bool = false
-        print()
-        print("초기 상태")
-        print()
-        printCube()
-        print()
+    
+    // 큐브 동작
+    mutating func cubeAction() {
+        printEndText()
+        printCompleteText()
+        let action = makeInput()
         print("CUBE> " + action.joined())
-        print()
         for index in action {
             count += 1
-            print(index)
-            if index == "U" {actionUp()}
-            else if index == "D"{actionDown()}
-            else if index == "F"{actionFront()}
-            else if index == "B"{actionBack()}
-            else if index == "L"{actionLeft()}
-            else if index == "R"{actionRight()}
-            else if index == "U'"{for _ in 0...2 {actionUp()}}
-            else if index == "D'"{for _ in 0...2 {actionDown()}}
-            else if index == "F'"{for _ in 0...2 {actionFront()}}
-            else if index == "B'"{for _ in 0...2 {actionBack()}}
-            else if index == "L'"{for _ in 0...2 {actionLeft()}}
-            else if index == "R'"{for _ in 0...2 {actionRight()}}
+            if index == "U" {print(index);actionUp();printCube()}
+            else if index == "D"{print(index);actionDown();printCube()}
+            else if index == "F"{print(index);actionFront();printCube()}
+            else if index == "B"{print(index);actionBack();printCube()}
+            else if index == "L"{print(index);actionLeft();printCube()}
+            else if index == "R"{print(index);actionRight();printCube()}
+            else if index == "U'"{print(index);for _ in 0...2 {actionUp()};printCube()}
+            else if index == "D'"{print(index);for _ in 0...2 {actionDown()};printCube()}
+            else if index == "F'"{print(index);for _ in 0...2 {actionFront()};printCube()}
+            else if index == "B'"{print(index);for _ in 0...2 {actionBack()};printCube()}
+            else if index == "L'"{print(index);for _ in 0...2 {actionLeft()};printCube()}
+            else if index == "R'"{print(index);for _ in 0...2 {actionRight()};printCube()}
             
-            else if index == "U2"{for _ in 0...1 {actionUp()}}
-            else if index == "D2"{for _ in 0...1 {actionDown()}}
-            else if index == "F2"{for _ in 0...1 {actionFront()}}
-            else if index == "B2"{for _ in 0...1 {actionBack()}}
-            else if index == "L2"{for _ in 0...1 {actionLeft()}}
-            else if index == "R2"{for _ in 0...1 {actionRight()}}
-            else if index == "U'2"{for _ in 0...1 {actionUp()}}
-            else if index == "D'2"{for _ in 0...1 {actionDown()}}
-            else if index == "F'2"{for _ in 0...1 {actionFront()}}
-            else if index == "B'2"{for _ in 0...1 {actionBack()}}
-            else if index == "L'2"{for _ in 0...1 {actionLeft()}}
-            else if index == "R'2"{for _ in 0...1 {actionRight()}}
-            else if index == "Q"{roofEnd = true}
-            printCube()
+            else if index == "U2"{print(index);for _ in 0...1 {actionUp()};printCube()}
+            else if index == "D2"{print(index);for _ in 0...1 {actionDown()};printCube()}
+            else if index == "F2"{print(index);for _ in 0...1 {actionFront()};printCube()}
+            else if index == "B2"{print(index);for _ in 0...1 {actionBack()};printCube()}
+            else if index == "L2"{print(index);for _ in 0...1 {actionLeft()};printCube()}
+            else if index == "R2"{print(index);for _ in 0...1 {actionRight()};printCube()}
+            else if index == "U'2"{print(index);for _ in 0...1 {actionUp()};printCube()}
+            else if index == "D'2"{print(index);for _ in 0...1 {actionDown()};printCube()}
+            else if index == "F'2"{print(index);for _ in 0...1 {actionFront()};printCube()}
+            else if index == "B'2"{print(index);for _ in 0...1 {actionBack()};printCube()}
+            else if index == "L'2"{print(index);for _ in 0...1 {actionLeft()};printCube()}
+            else if index == "R'2"{print(index);for _ in 0...1 {actionRight()};printCube()}
+            else if index == "Q"{
+                roofEnd = true
+            }
         }
+        if [upArr,downArr,leftArr,frontArr,rightArr,backArr] == cubeArr{
+            completeSign = true
+        }
+        // 꼬리 재귀 사용
+        self.cubeAction()
+    }
+    
+    func printEndText() {
         if roofEnd == true {
             print()
-            print("경과시간: ")
+            let elapsedTime = Int(CFAbsoluteTimeGetCurrent() - startTime)
+            print("경과시간: \(elapsedTime/60)분 \(elapsedTime)초")
             print("조작갯수: \(count - 1)")
             print("이용해 주셔서 감사합니다. 뚜뚜뚜.")
             exit(0)
         }
-        // 꼬리 재귀 사용
-        self.cubeAction(action: makeInput())
     }
     
+    func printCompleteText() {
+        if completeSign == true {
+            print("축하합니다. 모든 면을 맞추셨습니다.")
+            let elapsedTime = Int(CFAbsoluteTimeGetCurrent() - startTime)
+            print("경과시간: \(elapsedTime/60)분 \(elapsedTime)초")
+            print("조작갯수: \(count)")
+            print("이용해 주셔서 감사합니다. 뚜뚜뚜.")
+            exit(0)
+        }
+    }
+    
+    // 화면 출력
+    mutating func screenOfOuput() {
+        print("기본 동작을 작동하시려면 0을 입력해주시고 큐브 맞추기를 하시려면 1을 입력해주세요.")
+        let selectNum: Int = Int(readLine()!)!
+        if selectNum == 0 {
+            print("초기 상태")
+            print()
+            printCube()
+            print()
+            cubeAction()
+        }else if selectNum == 1{
+            _ = randomInput()
+            radomMixedCube()
+        }else{
+            print("잘못 입력하셨습니다. 강제 종료 합니다.")
+            exit(0)
+        }
+    }
+    
+    // 큐브 출력
     mutating func printCube() {
         for i in 0...2 {
             print("       ",terminator:"")
@@ -134,6 +187,76 @@ struct MakeRubiksCube {
     }
     // 추가 기능 구현
     //-----------------------------------------------------------------------//
+    mutating func randomInput() -> [String]{
+        let radomCount: Int = Int.random(in: 1...10)
+        for _ in 0...radomCount {
+            let radomAction: Int = Int.random(in: 1...24)
+            switch radomAction {
+            case 1: radomActionArr.append("U")
+            case 2: radomActionArr.append("D")
+            case 3: radomActionArr.append("F")
+            case 4: radomActionArr.append("B")
+            case 5: radomActionArr.append("L")
+            case 6: radomActionArr.append("R")
+            case 7: radomActionArr.append("U'")
+            case 8: radomActionArr.append("D'")
+            case 9: radomActionArr.append("F'")
+            case 10: radomActionArr.append("B'")
+            case 11: radomActionArr.append("L'")
+            case 12: radomActionArr.append("R'")
+            case 13: radomActionArr.append("U2")
+            case 14: radomActionArr.append("D2")
+            case 15: radomActionArr.append("F2")
+            case 16: radomActionArr.append("B2")
+            case 17: radomActionArr.append("L2")
+            case 18: radomActionArr.append("R2")
+            case 19: radomActionArr.append("U'2")
+            case 20: radomActionArr.append("D'2")
+            case 21: radomActionArr.append("F'2")
+            case 22: radomActionArr.append("B'2")
+            case 23: radomActionArr.append("L'2")
+            case 24: radomActionArr.append("R'2")
+            default:
+                break
+            }
+        }
+        return radomActionArr
+    }
+    mutating func radomMixedCube() {
+        let action = radomActionArr
+        for index in action {
+            if index == "U" {actionUp()}
+            else if index == "D"{actionDown()}
+            else if index == "F"{actionFront()}
+            else if index == "B"{actionBack()}
+            else if index == "L"{actionLeft()}
+            else if index == "R"{actionRight()}
+            else if index == "U'"{for _ in 0...2 {actionUp()}}
+            else if index == "D'"{for _ in 0...2 {actionDown()}}
+            else if index == "F'"{for _ in 0...2 {actionFront()}}
+            else if index == "B'"{for _ in 0...2 {actionBack()}}
+            else if index == "L'"{for _ in 0...2 {actionLeft()}}
+            else if index == "R'"{for _ in 0...2 {actionRight()}}
+            
+            else if index == "U2"{for _ in 0...1 {actionUp()}}
+            else if index == "D2"{for _ in 0...1 {actionDown()}}
+            else if index == "F2"{for _ in 0...1 {actionFront()}}
+            else if index == "B2"{for _ in 0...1 {actionBack()}}
+            else if index == "L2"{for _ in 0...1 {actionLeft()}}
+            else if index == "R2"{for _ in 0...1 {actionRight()}}
+            else if index == "U'2"{for _ in 0...1 {actionUp()}}
+            else if index == "D'2"{for _ in 0...1 {actionDown()}}
+            else if index == "F'2"{for _ in 0...1 {actionFront()}}
+            else if index == "B'2"{for _ in 0...1 {actionBack()}}
+            else if index == "L'2"{for _ in 0...1 {actionLeft()}}
+            else if index == "R'2"{for _ in 0...1 {actionRight()}}
+            else if index == "Q"{roofEnd = true}
+        }
+        printCube()
+        // 꼬리 재귀 사용
+        self.cubeAction()
+    }
+
 
     
     // 큐브 동작 기능 함수

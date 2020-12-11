@@ -19,6 +19,4 @@ import Foundation
 
 // 3단계
 var makeRubiksCube = MakeRubiksCube()
-var action = makeRubiksCube.makeInput()
-makeRubiksCube.cubeAction(action: action)
-
+makeRubiksCube.screenOfOuput()

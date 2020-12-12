@@ -7,5 +7,8 @@
 
 import Foundation
 
-print("Hello, World!")
+// 1단계
+var word = PushWord()
+var input = word.makeInput()
+print(word.moveWord(input: input))
 

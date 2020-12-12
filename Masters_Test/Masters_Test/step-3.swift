@@ -8,18 +8,25 @@
 import Foundation
 
 struct MakeRubiksCube {
+    // 시작 시간 측정을 위한 변수
     let startTime = CFAbsoluteTimeGetCurrent()
+    // 반복 횟수 카운터를 위한 변수
     var count: Int = 0
+    // Q 입력 여부를 받기 위한 변수
     var roofEnd: Bool = false
+    // 큐브 완성 여부를 받기 위한 변수
     var completeSign: Bool = false
+    // 무작위 큐브의 입력을 처리하기 위한 변수
     var radomActionArr: [String] = []
     
+    // 큐브의 각 면에 해당하는 배열
     var upArr: [[String]] = Array(repeating: Array(repeating: "B", count: 3), count: 3)
     var downArr: [[String]] = Array(repeating: Array(repeating: "R", count: 3), count: 3)
     var leftArr: [[String]] = Array(repeating: Array(repeating: "W", count: 3), count: 3)
     var frontArr: [[String]] = Array(repeating: Array(repeating: "O", count: 3), count: 3)
     var rightArr: [[String]] = Array(repeating: Array(repeating: "G", count: 3), count: 3)
     var backArr: [[String]] = Array(repeating: Array(repeating: "Y", count: 3), count: 3)
+    //
     var cubeArr = [
         Array(repeating: Array(repeating: "B", count: 3), count: 3),
         Array(repeating: Array(repeating: "R", count: 3), count: 3),
@@ -32,14 +39,12 @@ struct MakeRubiksCube {
     
     // 일반 기능 구현
     //-----------------------------------------------------------------------//
-    
-    
     // 입력 관리
     func makeInput() -> [String] {
         let inputArr: [String] = String(readLine()!).map{String($0)}
         var filterArr: [String] = []
         var actionArr: [String] = []
-        // " ' " 를 필터해서 바꿔주는 함수
+        // "'" 를 필터해서 바꿔주는 루프
         for i in 0...inputArr.count - 1  {
             if inputArr[i] == "'" {
                 filterArr.removeLast()
@@ -48,7 +53,7 @@ struct MakeRubiksCube {
                 filterArr.append(inputArr[i])
             }
         }
-        // 2번 돌리는 입력을 바꿔주는 함수
+        // 2번 돌리는 입력을 바꿔주는 루프
         for i in 0...filterArr.count - 1 {
             if filterArr[i] == "U" || filterArr[i] == "D" || filterArr[i] == "F" || filterArr[i] == "B" || filterArr[i] == "L" || filterArr[i] == "R" || filterArr[i] == "Q"{
                 actionArr.append(filterArr[i])
@@ -63,7 +68,7 @@ struct MakeRubiksCube {
         return actionArr
     }
     
-    // 큐브 동작
+    // 기본적인 큐브 동작을 하는 함수
     mutating func cubeAction() {
         printEndText()
         printCompleteText()
@@ -103,33 +108,34 @@ struct MakeRubiksCube {
         if [upArr,downArr,leftArr,frontArr,rightArr,backArr] == cubeArr{
             completeSign = true
         }
-        // 꼬리 재귀 사용
+        // 꼬리 재귀 사용으로 지속적인 반복을 하게함
         self.cubeAction()
     }
     
+    // Q 입력시 결과를 출력을 담당하는 함수
     func printEndText() {
         if roofEnd == true {
             print()
             let elapsedTime = Int(CFAbsoluteTimeGetCurrent() - startTime)
-            print("경과시간: \(elapsedTime/60)분 \(elapsedTime)초")
+            print("경과시간: \(elapsedTime/60)분 \(elapsedTime%60)초")
             print("조작갯수: \(count - 1)")
             print("이용해 주셔서 감사합니다. 뚜뚜뚜.")
             exit(0)
         }
     }
-    
+    // 큐브 완성시 결과를 출력하는 함수
     func printCompleteText() {
         if completeSign == true {
             print("축하합니다. 모든 면을 맞추셨습니다.")
             let elapsedTime = Int(CFAbsoluteTimeGetCurrent() - startTime)
-            print("경과시간: \(elapsedTime/60)분 \(elapsedTime)초")
+            print("경과시간: \(elapsedTime/60)분 \(elapsedTime%60)초")
             print("조작갯수: \(count)")
             print("이용해 주셔서 감사합니다. 뚜뚜뚜.")
             exit(0)
         }
     }
     
-    // 화면 출력
+    // 프로그램 동작 관리 함수
     mutating func screenOfOuput() {
         print("기본 동작을 작동하시려면 0을 입력해주시고 큐브 맞추기를 하시려면 1을 입력해주세요.")
         let selectNum: Int = Int(readLine()!)!
@@ -148,7 +154,7 @@ struct MakeRubiksCube {
         }
     }
     
-    // 큐브 출력
+    // 큐브의 상태를 출력하는 함수
     mutating func printCube() {
         for i in 0...2 {
             print("       ",terminator:"")
@@ -187,6 +193,7 @@ struct MakeRubiksCube {
     }
     // 추가 기능 구현
     //-----------------------------------------------------------------------//
+    // 랜덤 큐브 생성을 위한 입력을 만드는 함수
     mutating func randomInput() -> [String]{
         let radomCount: Int = Int.random(in: 1...10)
         for _ in 0...radomCount {
@@ -222,6 +229,7 @@ struct MakeRubiksCube {
         }
         return radomActionArr
     }
+    // 입력받은 랜덤 입력을 섞는 함수
     mutating func radomMixedCube() {
         let action = radomActionArr
         for index in action {
@@ -253,7 +261,7 @@ struct MakeRubiksCube {
             else if index == "Q"{roofEnd = true}
         }
         printCube()
-        // 꼬리 재귀 사용
+        // cubeAction()을 재귀 사용하여 큐브 맞추기를 가능하게 함
         self.cubeAction()
     }
 

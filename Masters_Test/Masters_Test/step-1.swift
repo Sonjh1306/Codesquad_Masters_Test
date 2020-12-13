@@ -40,5 +40,4 @@ struct PushWord {
         }
         return wordArr.joined()
     }
-
 }

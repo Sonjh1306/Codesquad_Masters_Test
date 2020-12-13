@@ -268,7 +268,7 @@ print("경과시간: \(elapsedTime/60)분 \(elapsedTime%60)초")
         self.cubeAction()
     }
 ~~~
-2. adomMixedCube(): randomInput()에서 생성한 랜덤 입력을 받아 각각의 동작을 하는 함수이며, cubeAction()를 재귀사용하여 지속적으로 동작하게 하였고 Q 입력 또는 큐브 맞추기가 가능하게 구현하였다.
+2. adomMixedCube(): randomInput()에서 생성한 랜덤 입력을 받아 각각의 동작을 하는 함수이며, cubeAction()을 재귀사용하여 지속적으로 동작하게 하였고 Q 입력 또는 큐브 맞추기가 가능하게 구현하였다.
 
 **- 모든 면을 맞추면 축하 메시지와 함께 프로그램을 자동 종료**
 ~~~swift
@@ -283,5 +283,7 @@ print("경과시간: \(elapsedTime/60)분 \(elapsedTime%60)초")
         }
     }
 ~~~
-구현 설명: cubeArr라는 초기 값을 가지고 있는 전역 변수로 만들어주고, 큐브 동작을 하는 cubeAction() 함수 내의 현재 함수 상태와 cubeArr를 비교하여 동일할 경우 printCompleteText() 실행하게 만들어
-         큐브를 맞췄을 경우 종료하게 구현하였다.
+
+구현 설명: cubeArr라는 큐브를 초기 상태를 값으로 가지고 있는 전역 변수로 만들어주고, 큐브 동작을 하는 cubeAction() 함수 내의 현재 함수 상태와 cubeArr를 비교하여 동일할 경우 printCompleteText() 실 
+         행하면서 프로그램을 종료하게 구현하였다.
+

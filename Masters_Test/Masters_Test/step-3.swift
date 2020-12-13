@@ -112,7 +112,7 @@ struct MakeRubiksCube {
         self.cubeAction()
     }
     
-    // Q 입력시 결과를 출력을 담당하는 함수
+    // Q 입력시 결과를 출력하는 함수
     func printEndText() {
         if roofEnd == true {
             print()
@@ -136,7 +136,7 @@ struct MakeRubiksCube {
     }
     
     // 프로그램 동작 관리 함수
-    mutating func screenOfOuput() {
+    mutating func cubeControl() {
         print("기본 동작을 작동하시려면 0을 입력해주시고 큐브 맞추기를 하시려면 1을 입력해주세요.")
         let selectNum: Int = Int(readLine()!)!
         if selectNum == 0 {

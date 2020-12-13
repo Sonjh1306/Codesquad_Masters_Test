@@ -16,14 +16,12 @@ struct FlatCube {
             if inputArr[i] == "'" {
                 actionArr.remove(at: i - 1)
                 actionArr.append("\(inputArr[i-1])'")
-                
             }else{
                 actionArr.append(inputArr[i])
             }
         }
         return actionArr
     }
-    
     func makeCube(action: [String]){
         var cubeArr: [[String]] = [["R","R","W"],["G","C","W"],["G","B","B"]]
         for i in 0...2 {
@@ -35,7 +33,6 @@ struct FlatCube {
         print()
         print("CUBE> \(action.joined())")
         print()
-        
         for index in action {
             var str1: String = ""
             var str2: String = ""

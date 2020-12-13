@@ -11,7 +11,7 @@ import Foundation
 //var word = PushWord()
 //var input = word.makeInput()
 //print(word.moveWord(input: input))
-//
+
 //// 2단계
 //var cube = FlatCube()
 //var action = cube.makeAction()

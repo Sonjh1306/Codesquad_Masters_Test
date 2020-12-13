@@ -26,10 +26,14 @@ struct FlatCube {
     
     func makeCube(action: [String]){
         var cubeArr: [[String]] = [["R","R","W"],["G","C","W"],["G","B","B"]]
-        
-        print(cubeArr)
+        for i in 0...2 {
+            for j in 0...2 {
+                print(cubeArr[i][j], terminator:" ")
+            }
+            print()
+        }
         print()
-        print("CUBE> \(action)")
+        print("CUBE> \(action.joined())")
         print()
         
         for index in action {
@@ -97,7 +101,12 @@ struct FlatCube {
                 exit(0)
             }
             print(index)
-            print(cubeArr)
+            for i in 0...2 {
+                for j in 0...2 {
+                    print(cubeArr[i][j], terminator:" ")
+                }
+                print()
+            }
             print()
         }
     }
